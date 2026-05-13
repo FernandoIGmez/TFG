@@ -1,0 +1,144 @@
+<!--
+	@description       : Menu selector. Used to add and remove products to a Request. Used in record page of the Requests
+	@author            : Fernando Ibarra
+	@last modified on  : 10-12-2025
+	@last modified by  : Fernando Ibarra
+-->
+<template>
+	<!-- MAIN VIEW -->
+	<div class="slds-box slds-theme_default responsive-container slds-is-relative">
+		<div if:true={isLoading} class="slds-spinner_container slds-is-fixed" style="background-color: rgb(255 255 255 / 70%); z-index: 9100 ;">
+			<div role="status" class="slds-spinner slds-spinner_large">
+			<span class="slds-assistive-text">Loading</span>
+			<div class="slds-spinner__dot-a"></div>
+			<div class="slds-spinner__dot-b"></div>
+			</div>
+		</div>
+		<div if:true={isLoading}></div>
+		<!-- TOTAL PRICE -->
+		<div class="slds-box slds-theme_default slds-text-align_center total-price-box">
+			<lightning-formatted-text value="Precio Total: "></lightning-formatted-text>
+			<lightning-formatted-number value={totalPrice} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+		</div>
+
+		<!-- SELECTED PRODUCTS -->
+		<div class="slds-box slds-theme_default slds-text-align_center">
+			<lightning-formatted-text value="Productos seleccionados:"></lightning-formatted-text>
+
+			<!-- PRODUCT LIST -->
+			<div class="slds-grid slds-wrap responsive-grid">
+				<template if:true={selectedItemsList} for:each={selectedItemsList} for:item="prod">
+					<div key={prod.Id} class="slds-box slds-theme_default responsive-product-card">
+						<div class="product-container">
+							<div class="square image-container">
+								<img src={prod.ImageURL} alt={prod.Name} />
+							</div>
+							<div class="slds-text-align_center slds-m-top_small">
+								<lightning-formatted-text value={prod.Name}></lightning-formatted-text>
+							</div>
+							<div class="slds-text-align_center">
+								<lightning-formatted-number value={prod.UnitPrice} format-style="currency" currency-code="EUR"></lightning-formatted-number>
+								<lightning-formatted-text value=" x "></lightning-formatted-text>
+								<lightning-formatted-number value={prod.Quantity}></lightning-formatted-number>
+							</div>
+							<div class="slds-text-align_center">
+								<lightning-formatted-number value={prod.TotalPrice} format-style="currency" currency-code="EUR"></lightning-formatted-number>
+							</div>
+							<button class="action-btn delete-btn" title="Eliminar" data-id={prod.Product2Id} onclick={handleRemoveProducts}>
+								<span class="symbol cross"></span>
+							</button>
+						</div>
+					</div>
+				</template>
+			</div>
+		</div>
+
+		<!-- ADD BUTTON -->
+		<div class="slds-align_absolute-center slds-m-top_medium">
+			<lightning-button-icon icon-name="utility:add" variant="border-filled" alternative-text="Añadir productos" onclick={handleOpenAddProductsModal}></lightning-button-icon>
+		</div>
+	</div>
+
+	<!-- MODAL -->
+	<div class="custom-modal" if:true={showAddProductsModal}>
+		<section role="dialog" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close" onclick={closeAddProductsModal}>
+						<lightning-icon icon-name="utility:close" alternative-text="Close" size="small" variant="inverse"></lightning-icon>
+					</button>
+					<h2 class="slds-text-heading_medium">Añadir productos</h2>
+				</header>
+
+				<div class="slds-modal__content slds-p-around_medium">
+					<!-- PRODUCT GRID INSIDE MODAL -->
+					<div class="slds-grid slds-wrap responsive-grid">
+						<template if:true={menuList} for:each={menuList} for:item="prod">
+							<div key={prod.Id} class="slds-box slds-theme_default responsive-product-card">
+								<div class="product-container">
+									<div class="square image-container">
+										<img src={prod.ImageURL} alt={prod.Name} />
+									</div>
+									<div class="slds-text-align_center slds-m-top_small">
+										<lightning-formatted-text value={prod.Name}></lightning-formatted-text>
+									</div>
+									<div class="slds-text-align_center">
+										<lightning-formatted-number value={prod.UnitPrice} format-style="currency" currency-code="EUR"></lightning-formatted-number>
+									</div>
+									<button class="action-btn add-btn" title="Añadir" data-id={prod.Product2Id} onclick={handleAddProduct}>
+										<span class="symbol plus"></span>
+									</button>
+								</div>
+							</div>
+						</template>
+					</div>
+
+					<!-- TABLE WITH PRODUCTS TO ADD -->
+					<div class="slds-box slds-m-around_medium responsive-table-container">
+						<table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal" aria-labelledby="element-with-table-label">
+							<thead>
+								<tr>
+									<template if:true={addPorductColumnsList} for:each={addPorductColumnsList} for:item="col">
+										<th key={col.Id} class="slds-text-align_center">
+											<div class="slds-truncate" title={col.label}>{col.label}</div>
+										</th>
+									</template>
+								</tr>
+							</thead>
+							<tbody>
+								<template if:true={listOfProductsToAdd} for:each={listOfProductsToAdd} for:item="prod">
+									<tr key={prod.Id}>
+										<td data-label="Producto" class="slds-text-align_center">
+											<lightning-formatted-text value={prod.Name}></lightning-formatted-text>
+										</td>
+										<td data-label="Precio" class="slds-text-align_center">
+											<lightning-formatted-number value={prod.UnitPrice} format-style="currency" currency-code="EUR"></lightning-formatted-number>
+										</td>
+										<td data-label="Cantidad" class="slds-text-align_center">
+											<div class="quantity-controls">
+												<button onclick={handleModifyProductQuantity} data-id={prod.Id} data-operation="substract">−</button>
+												<lightning-formatted-number value={prod.Quantity}></lightning-formatted-number>
+												<button onclick={handleModifyProductQuantity} data-id={prod.Id} data-operation="add">+</button>
+											</div>
+										</td>
+										<td data-label="Precio Total" class="slds-text-align_center">
+											<lightning-formatted-number value={prod.TotalPrice} format-style="currency" currency-code="EUR"></lightning-formatted-number>
+										</td>
+									</tr>
+								</template>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<footer class="slds-modal__footer">
+					<lightning-button label="Cancelar" onclick={closeAddProductsModal}></lightning-button>
+					<lightning-button variant="brand" onclick={handleSaveSelectedProducts} label="Guardar"></lightning-button>
+				</footer>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</div>
+	<!--Child component to show the taoast event-->
+	<c-custom-toast auto-close-time="8000"></c-custom-toast>
+</template>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QrCode__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( CheckIn__c &amp;&amp; !CheckOut__c ,   
+				IMAGE(&quot;https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=https://orgfarm-ee51864b39-dev-ed.develop.my.site.com/client?c__Id=&quot; &amp; UUID__c , &quot;qr code.&quot;, 150,150)
+				, &quot;&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>QR</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

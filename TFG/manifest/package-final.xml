@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    
+    <!--Custom Objects created-->
+    <types>
+        <members>Room__c</members>
+        <members>Booking__c</members>
+        <name>CustomObject</name>
+    </types>
+
+    <!--Apex Classes created-->
+    <types>
+        <members>WebServiceSAP</members>
+        <members>MenuSelectorController</members>
+        <members>ClientsPageController</members>
+        <members>Product2Handler</members>
+        <members>CaseHandler</members>
+        <members>BookingHandler</members>
+        <members>OrderItemHandler</members>
+        <members>TranslationApiCallout</members>
+        <name>ApexClass</name>
+    </types>
+
+    <!--Apex Triggers created-->
+    <types>
+        <members>OnProduct2</members>
+        <members>OnCase</members>
+        <members>OnBooking</members>
+        <members>OnOrderItem</members>
+        <name>ApexTrigger</name>
+    </types>
+
+    <!--Digital Experience for clients to create and see the Requests-->
+    <types>
+        <members>site/Clients1</members>
+        <name>DigitalExperienceBundle</name>
+    </types>
+    
+    <!--Custom Fields created in standard objects-->
+    <types>
+        <members>Account.ExternalId__c</members>
+        <members>Pricebook2.HotelId__c</members>
+        <members>Case.BookingId__c</members>
+        <members>Case.Status</members><!--Just modified the Picklist values of the field-->
+        <members>Case.Origin</members><!--Just modified the Picklist values of the field-->
+        <members>Case.OrderId__c</members>
+        <members>Contact.ExternalId__c</members>
+        <name>CustomField</name>
+    </types>
+
+    <!--List views for the home page of the main app HotelEX-->
+    <types>
+        <members>Booking__c.CheckInToday</members>
+        <members>Booking__c.CheckOutToday</members>
+        <members>Case.OpenRequestsToday</members>
+        <name>ListView</name>
+    </types>
+
+    <!--Available apps of the system-->
+    <types>
+        <members>HotelEX</members>
+        <members>HotelEx_Metrics</members>
+        <name>CustomApplication</name>
+    </types>
+
+    <!--Permission set to add for omni channel users-->
+    <types>
+        <members>OmniChannelUser</members><!--https://help.salesforce.com/s/articleView?id=service.console_lex_service_setup_omnichannel.htm&type=5-->
+        <name>PermissionSet</name>
+    </types>
+
+    <!--LWC-->
+    <types>
+        <members>clientsPage</members>
+        <members>singleCaseView</members>
+        <members>customToast</members>
+        <members>menuSelector</members>
+        <members>path</members>
+        <name>LightningComponentBundle</name>
+    </types>
+
+    <!--Layouts that set the position of all fields that are shown of an object in it's record page-->
+    <types>
+        <members>Account-Hotel</members>
+        <members>Order-Order Layout</members>
+        <members>Contact-Contact Layout</members>
+        <members>Case-Case Layout</members>
+        <members>Booking__c-Booking Layout</members>
+        <members>Room__c-Room Layout</members>
+        <name>Layout</name>
+    </types>
+
+    <!--Tabs for Custom Objects to be shown in the navigation bar of the App-->
+    <types>
+        <members>Room__c</members>
+        <members>Booking__c</members>
+        <name>CustomTab</name>
+    </types>
+
+    <!--Custom Report type created to make reports about bookings data-->
+    <types>
+        <members>Bookings</members>
+        <name>ReportType</name>
+    </types>
+
+    <!--Reports about bookings data-->
+    <types>
+        <members>HotelExReports/Bookings_Per_Hotel</members>
+        <members>HotelExReports/Bookings_Per_Month</members>
+        <name>Report</name>
+    </types>
+    
+    <!--Dashboard shown in the app for metrics-->
+    <types>
+        <members>HotelExDashboards/PJDZPKskbjHvNhxfForPvvrxTvfNnm</members>
+        <name>Dashboard</name>
+    </types>
+
+    <!--Flexi Page of the different records and home pages-->
+    <types>
+        <members>Hotel</members>
+        <members>Room</members>
+        <members>Booking</members>
+        <members>Request_Record_Page2</members>
+        <members>HotelEX_Metrics_Home</members>
+        <members>HotelEX_Home</members>
+        <name>FlexiPage</name>
+    </types>
+
+    <!--Configuration for the Path that is shown in the Request flexipage-->
+    <types>
+        <members>Request_Path</members>
+        <name>PathAssistant</name>
+    </types>
+
+    <!--Routing created for the Omnichannel Routing-->
+    <types>
+        <members>BasicRouting</members>
+        <name>QueueRoutingConfig</name>
+    </types>
+    <!--Presence Statuses used in Omnichannel-->
+    <types>
+        <members>Available</members>
+        <members>Busy</members>
+        <members>NotAvailable</members>
+        <name>ServicePresenceStatus</name>
+    </types>
+    
+    <!--Translations of the metadata of the Organization-->    
+    <types>
+        <members>Account-es</members><!--Customized translations for renaming 'Account' object into 'Hotel' object -->
+        <members>Account-en_US</members><!--Customized translations for renaming 'Account' object into 'Hotel' object -->
+        <members>Contact-es</members><!--Customized translations for renaming 'Contact' object into 'Client' object -->
+        <members>Contact-en_US</members><!--Customized translations for renaming 'Contact' object into 'Client' object -->
+        <members>Case-es</members><!--Customized translations for renaming 'Case' object into 'Request' object -->
+        <members>Case-en_US</members><!--Customized translations for renaming 'Case' object into 'Request' object -->
+        <members>Booking__c-en_US</members>
+        <members>Booking__c-es</members>
+        <members>Room__c-en_US</members>
+        <members>Room__c-es</members>
+        <name>CustomObjectTranslation</name>
+    </types>
+    <types>
+        <members>en_US</members>
+        <members>es</members>
+        <name>Translations</name>
+    </types>
+
+    <version>64.0</version>
+</Package>

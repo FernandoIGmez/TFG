@@ -9,4 +9,15 @@
         <value>Hoteles</value>
     </caseValues>
     <gender>Masculine</gender>
+    <layouts>
+        <layout>Hotel</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
 </CustomObjectTranslation>

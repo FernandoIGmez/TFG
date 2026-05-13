@@ -8,5 +8,16 @@
         <plural>true</plural>
         <value>Hotels</value>
     </caseValues>
+    <layouts>
+        <layout>Hotel</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
     <startsWith>Vowel</startsWith>
 </CustomObjectTranslation>

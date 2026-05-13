@@ -1,0 +1,110 @@
+<!--
+  @description       : 
+  @author            : Fernando Ibarra
+  @group             : 
+  @last modified on  : 18-11-2025
+  @last modified by  : Fernando Ibarra
+-->
+<template>
+    <div class="custom-modal" style="width: 100%; margin: 0px;">
+        <section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container" style="width: 100%; margin: 0px; max-width: 100%;">
+                <span class="slds-modal__close" onclick={handleCloseModal}>
+                    <lightning-icon icon-name="utility:close" variant="inverse"  alternative-text="close"></lightning-icon>
+                </span>
+                <div class="slds-modal__content">
+                    <!--MODAL BODY START-->
+                    <div class="slds-theme_default slds-is-relative">
+                        <!--Page Header-->
+                        <div class="slds-page-header slds-page-header_record-home">
+                            <div class="slds-page-header__row">
+                                <!--PAGE TITLE WITH ICON, CASE NUMBER AND CREATED DATE-->
+                                <div class="slds-page-header__col-title">
+                                    <div class="slds-media">
+                                        <div class="slds-media__figure">
+                                            <span class="slds-icon_container slds-icon-standard-case" title="petición">
+                                                <lightning-icon 
+                                                    icon-name="standard:case" 
+                                                    alternative-text="" 
+                                                    size="medium" 
+                                                    title="large size"
+                                                    variant="inverse"
+                                                ></lightning-icon>
+                                            </span>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <div class="slds-page-header__name">
+                                                <div class="slds-page-header__name-title">
+                                                    <h1>
+                                                        <span class="slds-page-header__title slds-truncate"
+                                                            title={caseInfo.CaseNumber}>{caseInfo.CaseNumber}</span>
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                            <p class="slds-page-header__name-meta">{caseInfo.CreatedDate}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--BUTTONS OF THE PAGE TITLE-->
+                                <div class="slds-page-header__col-actions" if:true={requestIsInDraft}>
+                                    <div class="slds-page-header__controls">
+                                        <ul class="slds-button-group-list">
+                                            <li><button class="slds-button slds-button_neutral" onclick={handleSaveChanges}>Guardar</button></li>
+                                            <li><button class="slds-button slds-button_neutral" onclick={handleConfirmRequest}>Confirmar Petición</button></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Page Body-->
+                        <!--Record Info-->
+                        <div class="slds-box ">
+                            <lightning-spinner if:true={isLoading} alternative-text="Loading" size="large"></lightning-spinner>
+                            <div class="slds-grid slds-wrap">
+                                <!--Path with the status-->
+                                <div class="slds-col slds-size_1-of-1 slds-p-left_small slds-p-right_small slds-p-top_small slds-p-bottom_medium">
+                                    <c-path stages={statuses} actual-stage={caseInfo.Status}></c-path>
+                                </div>
+                                <!--Subject-->
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-p-left_small slds-p-right_small">
+                                    <lightning-input data-element="Subject" type="text" label="Asunto" value={caseInfo.Subject} onchange={handleFieldChange}></lightning-input>
+                                </div>
+                                <!--Description-->
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-p-left_small slds-p-right_small">
+                                    <lightning-textarea data-element="Description" name="Description" label="Descripción" placeholder="Escriba aquí..." value={caseInfo.Description} onchange={handleFieldChange}></lightning-textarea>
+                                </div>
+                                <!--Priority-->
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-p-left_small slds-p-right_small">
+                                    <lightning-combobox data-element="Priority" name="Priority" label="Prioridad" value={caseInfo.Priority} placeholder="Seleccione Prioridad" options={priorities} onchange={handleFieldChange}></lightning-combobox>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-p-left_small slds-p-right_small">
+                                    <lightning-dual-listbox name="languages" data-element="Category"
+                                        label="Categoría"
+                                        source-label="Disponibles"
+                                        selected-label="Seleccionados"
+                                        field-level-help="Seleccione el/los tipo/s de categoría"
+                                        options={categories}
+                                        onchange={handleFieldChange}
+                                        value={selectedCategories}
+                                    ></lightning-dual-listbox>
+                                </div>
+                                
+                    
+                            </div>
+                    
+                        </div>
+                        <!-- Menu Selector-->
+                        <c-menu-selector record-id={caseId}></c-menu-selector>
+                    </div>
+                    <!--MODAL BODY END-->
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="brand" label="Cerrar" title="Cerrar" onclick={handleCloseModal} ></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+    <!--Child component to show the taoast event-->
+	<c-custom-toast auto-close-time="8000"></c-custom-toast>
+</template>

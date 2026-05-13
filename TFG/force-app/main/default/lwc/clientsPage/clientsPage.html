@@ -1,0 +1,92 @@
+<!--
+  @description       : 
+  @author            : Fernando Ibarra
+  @group             : 
+  @last modified on  : 03-04-2026
+  @last modified by  : Fernando Ibarra
+-->
+<template>
+	<div if:true={showPage} class="slds-theme_default slds-is-relative">
+		<div if:true={isLoading} class="slds-spinner_container slds-is-fixed" style="background-color: rgb(255 255 255 / 70%);">
+			<div role="status" class="slds-spinner slds-spinner_large">
+			<span class="slds-assistive-text">Loading</span>
+			<div class="slds-spinner__dot-a"></div>
+			<div class="slds-spinner__dot-b"></div>
+			</div>
+		</div>
+		<!-- <lightning-spinner if:true={isLoading} alternative-text="Loading" size="large"></lightning-spinner> -->
+		<!--Page Header-->
+		<div class="slds-page-header slds-page-header_record-home">
+			<div class="slds-page-header__row">
+				<!--PAGE TITLE WITH ICON, CASE NUMBER AND CREATED DATE-->
+				<div class="slds-page-header__col-title">
+					<div class="slds-media">
+						<div class="slds-media__figure">
+							<span class="slds-icon_container slds-icon-standard-case" title="petición">
+								<lightning-icon icon-name="standard:case" alternative-text="" size="medium"
+									title="" variant="inverse"></lightning-icon>
+							</span>
+						</div>
+						<div class="slds-media__body">
+							<div class="slds-page-header__name">
+								<div class="slds-page-header__name-title">
+									<h1>
+										<span class="slds-page-header__title slds-truncate">Mis Peticiones</span>
+									</h1>
+								</div>
+							</div>
+							<!-- <p class="slds-page-header__name-meta">{caseInfo.CreatedDate}</p> -->
+						</div>
+					</div>
+				</div>
+				<!--BUTTONS OF THE PAGE TITLE-->
+				<div class="slds-page-header__col-actions" if:false={requestIsConfirmed}>
+					<div class="slds-page-header__controls">
+						<ul class="slds-button-group-list">
+							<li><button class="slds-button slds-button_neutral" onclick={handleCreateNewCase}>Nueva Petición</button></li>
+							<li><lightning-button-icon icon-name="utility:refresh" onclick={handleUpdateInfo} variant="border-filled" alternative-text="Settings" title="Settings"></lightning-button-icon></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--Page Body-->
+		<div class="slds-box ">
+			<template if:true={caseList} for:each={caseList} for:item="actualCase" for:index="index">
+			   <div key={actualCase.Id} >
+					<div class="slds-box " >
+						<div class="slds-grid slds-wrap" style="align-items: center; ">
+							<div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12" style="height: 100%; display: flex; align-items: center;">
+								<div class="slds-var-p-right_medium ">
+									<lightning-icon icon-name="standard:case" alternative-text="" title="" variant="inverse"></lightning-icon>
+								</div>
+									<span class="slds-page-header__title slds-truncate" title={actualCase.CaseNumber}>{actualCase.CaseNumber}</span>
+							</div>
+							<div class="slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12" >
+								<div class="slds-var-p-right_medium" style=" width: 64%">
+									<lightning-formatted-text value={actualCase.Subject}></lightning-formatted-text>
+								</div>
+							</div>
+							<div class="slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12" style="display:flex; align-items: center;">
+								<div class="slds-var-p-right_medium" >
+									<lightning-formatted-text value={actualCase.CreatedDate}></lightning-formatted-text>
+								</div>
+								<div class="slds-var-p-right_medium" style="margin-left: auto;">
+									<lightning-button-icon onclick={handleOpenCaseView}  icon-name="utility:preview"  variant="border-filled" alternative-text="Settings" title="Settings" data-id={actualCase.Id}></lightning-button-icon>
+								</div>
+							</div>
+						</div>
+
+					</div>
+			   </div>
+			</template>
+		</div>
+
+
+
+	</div>
+	<div if:true={showModal}>
+		<c-single-case-view selected-case={selectedCase} onupdaterecord={handleUpdateInfo} onclosemodal={handleCloseModal} ></c-single-case-view>
+	</div>
+	<c-custom-toast auto-close-time="8000"></c-custom-toast>
+</template>
